@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "skill-availabilities",
+  "info": {
+    "singularName": "skill-availability",
+    "pluralName": "skill-availabilities",
+    "displayName": "Skill-availabilities"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "start_time": {
+      "type": "time",
+      "required": true
+    },
+    "end_time": {
+      "type": "time",
+      "required": true
+    },
+    "is_booked": {
+      "type": "boolean",
+      "default": false
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "skill_availabilities"
+    }
+  }
+}

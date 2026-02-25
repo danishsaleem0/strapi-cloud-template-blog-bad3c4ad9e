@@ -4,16 +4,12 @@
   "info": {
     "singularName": "review",
     "pluralName": "reviews",
-    "displayName": "Review"
+    "displayName": "Reviews"
   },
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": false
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "rating": {
       "type": "integer",
@@ -28,6 +24,18 @@
       "relation": "manyToOne",
       "target": "api::booking.booking",
       "inversedBy": "review"
+    },
+    "reviewer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "reviews_as_reviewer"
+    },
+    "reviewed_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "reviews_as_reviewed_user"
     }
   }
 }

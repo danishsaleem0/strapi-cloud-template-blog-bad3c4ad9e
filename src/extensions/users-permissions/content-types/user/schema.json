@@ -73,6 +73,7 @@
     "profile_image": {
       "type": "media",
       "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
@@ -83,6 +84,30 @@
     "location": {
       "type": "text",
       "required": true
+    },
+    "skills": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::skill.skill",
+      "mappedBy": "user"
+    },
+    "skill_availabilities": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::skill-availability.skill-availability",
+      "mappedBy": "user"
+    },
+    "reviews_as_reviewer": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "reviewer"
+    },
+    "reviews_as_reviewed_user": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "reviewed_user"
     }
   }
 }

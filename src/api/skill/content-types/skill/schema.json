@@ -7,20 +7,12 @@
     "displayName": "Skill"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": false
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "title": {
       "type": "string",
-      "required": true
-    },
-    "description": {
-      "type": "blocks",
       "required": true
     },
     "type": {
@@ -40,15 +32,41 @@
     "location": {
       "type": "string"
     },
-    "is_active": {
-      "type": "boolean",
-      "default": true
+    "approval_status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ]
     },
-    "bookings": {
+    "category": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::booking.booking",
-      "mappedBy": "skill"
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "skills"
+    },
+    "description_text": {
+      "type": "text",
+      "required": true
+    },
+    "total_requests": {
+      "type": "integer"
+    },
+    "total_completed": {
+      "type": "integer"
+    },
+    "rating_sum": {
+      "type": "integer"
+    },
+    "rating_count": {
+      "type": "integer"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "skills"
     }
   }
 }

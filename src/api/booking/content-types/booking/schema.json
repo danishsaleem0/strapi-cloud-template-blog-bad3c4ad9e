@@ -9,11 +9,7 @@
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": false
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "message": {
       "type": "text"
@@ -24,17 +20,35 @@
     "completed_at": {
       "type": "datetime"
     },
-    "skill": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::skill.skill",
-      "inversedBy": "bookings"
-    },
     "review": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "booking"
+    },
+    "requester": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "provider": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "offered_skill": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::skill.skill"
+    },
+    "requested_skill": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::skill.skill"
+    },
+    "booking_status": {
+      "type": "string",
+      "default": "pending"
     }
   }
 }
