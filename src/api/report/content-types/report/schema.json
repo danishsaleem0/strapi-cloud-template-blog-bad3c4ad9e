@@ -16,7 +16,36 @@
   },
   "attributes": {
     "reason": {
-      "type": "text"
+      "type": "text",
+      "required": true
+    },
+    "reporter": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "reported_item_id": {
+      "type": "string",
+      "required": true
+    },
+    "reported_item_type": {
+      "type": "enumeration",
+      "enum": [
+        "skill",
+        "user",
+        "booking"
+      ],
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "investigating",
+        "resolved",
+        "dismissed"
+      ],
+      "default": "pending"
     }
   }
 }

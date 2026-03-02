@@ -49,6 +49,10 @@
     "booking_status": {
       "type": "string",
       "default": "pending"
+    },
+    "reminder_sent": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

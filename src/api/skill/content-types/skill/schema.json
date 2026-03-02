@@ -32,6 +32,17 @@
     "location": {
       "type": "string"
     },
+    "skill_level": {
+      "type": "enumeration",
+      "enum": [
+        "Beginner",
+        "Intermediate",
+        "Expert"
+      ]
+    },
+    "availability_slots": {
+      "type": "json"
+    },
     "approval_status": {
       "type": "enumeration",
       "enum": [
@@ -49,18 +60,6 @@
     "description_text": {
       "type": "text",
       "required": true
-    },
-    "total_requests": {
-      "type": "integer"
-    },
-    "total_completed": {
-      "type": "integer"
-    },
-    "rating_sum": {
-      "type": "integer"
-    },
-    "rating_count": {
-      "type": "integer"
     },
     "user": {
       "type": "relation",

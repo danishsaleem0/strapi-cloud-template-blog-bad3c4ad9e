@@ -531,6 +531,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
       'plugin::users-permissions.user'
     >;
     publishedAt: Schema.Attribute.DateTime;
+    reminder_sent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     requested_skill: Schema.Attribute.Relation<'oneToOne', 'api::skill.skill'>;
     requester: Schema.Attribute.Relation<
       'oneToOne',
@@ -706,7 +707,20 @@ export interface ApiReportReport extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    reason: Schema.Attribute.Text;
+    reason: Schema.Attribute.Text & Schema.Attribute.Required;
+    reported_item_id: Schema.Attribute.String & Schema.Attribute.Required;
+    reported_item_type: Schema.Attribute.Enumeration<
+      ['skill', 'user', 'booking']
+    > &
+      Schema.Attribute.Required;
+    reporter: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    status: Schema.Attribute.Enumeration<
+      ['pending', 'investigating', 'resolved', 'dismissed']
+    > &
+      Schema.Attribute.DefaultTo<'pending'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -808,6 +822,7 @@ export interface ApiSkillSkill extends Struct.CollectionTypeSchema {
     approval_status: Schema.Attribute.Enumeration<
       ['pending', 'approved', 'rejected']
     >;
+    availability_slots: Schema.Attribute.JSON;
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -819,11 +834,10 @@ export interface ApiSkillSkill extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     location: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    rating_count: Schema.Attribute.Integer;
-    rating_sum: Schema.Attribute.Integer;
+    skill_level: Schema.Attribute.Enumeration<
+      ['Beginner', 'Intermediate', 'Expert']
+    >;
     title: Schema.Attribute.String & Schema.Attribute.Required;
-    total_completed: Schema.Attribute.Integer;
-    total_requests: Schema.Attribute.Integer;
     type: Schema.Attribute.Enumeration<['OFFER', 'REQUEST']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

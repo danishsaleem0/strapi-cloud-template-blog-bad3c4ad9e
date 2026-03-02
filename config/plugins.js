@@ -1,20 +1,25 @@
-module.exports = ({ env }) => ({
-  // email: {
-  //   config: {
-  //     provider: "nodemailer",
-  //     providerOptions: {
-  //       host: "smtp.gmail.com",
-  //       port: env.int("SMTP_PORT", 587),
-  //       secure: false, // true for port 465
-  //       auth: {
-  //         user: "CRMS@ajcl.net",
-  //         pass: "ajcl@123",
-  //       },
-  //     },
-  //     settings: {
-  //       defaultFrom: "no-reply@example.com",
-  //       defaultReplyTo: "support@example.com",
-  //     },
-  //   },
-  // },
-});
+module.exports = {
+  email: {
+    config: {
+      provider: 'nodemailer',
+      providerOptions: {
+        host: 'smtp.hostinger.com',
+
+        // ✅ Recommended setup
+        port: 465,
+        secure: true, // MUST be false for 587
+
+        auth: {
+          user: 'dev@koderspedia.net',
+          pass: '|6HUyF0sd', // 🔴 hard-coded password
+        },
+
+        connectionTimeout: 10000,
+      },
+      settings: {
+        defaultFrom: 'dev@koderspedia.net',
+        defaultReplyTo: 'dev@koderspedia.net',
+      },
+    },
+  },
+};
