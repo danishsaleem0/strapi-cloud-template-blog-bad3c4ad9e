@@ -108,6 +108,12 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "reviewed_user"
+    },
+    "reports": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::report.report",
+      "mappedBy": "reported_user"
     }
   }
 }

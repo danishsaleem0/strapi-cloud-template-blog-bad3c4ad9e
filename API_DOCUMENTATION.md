@@ -281,6 +281,19 @@ Response:
 }
 ```
 
+### List Reported Abusers
+- Method: `GET`
+- URL: `/admin/abusers`
+- Auth: Required
+
+Optional query params:
+- `status=pending|investigating|resolved|dismissed`
+- `limit=<number>` default `500`, max `1000`
+
+Description:
+- Returns users who were reported as abusive, grouped by reported user.
+- Each item includes the reported user, report count, latest report date, and the related report records.
+
 ### List Categories
 - Method: `GET`
 - URL: `/admin/categories`
@@ -349,7 +362,51 @@ Allowed values:
 - `approved`
 - `rejected`
 
-## 4. Notes for Frontend Integration
+## 4. Report APIs
+
+### Report a User
+- Method: `POST`
+- URL: `/reports/users/:id`
+- Auth: Required
+
+Request body:
+```json
+{
+  "reason": "This user is sending abusive messages."
+}
+```
+
+Notes:
+- `:id` is the user being reported.
+- The reporter is always taken from the JWT. Do not send `reporter` from the frontend.
+- A user cannot report their own account.
+
+### Report Any Supported Item
+- Method: `POST`
+- URL: `/reports`
+- Auth: Required
+
+Request body:
+```json
+{
+  "data": {
+    "reason": "Abusive or inappropriate behavior.",
+    "reported_item_id": "12",
+    "reported_item_type": "user"
+  }
+}
+```
+
+Allowed `reported_item_type` values:
+- `user`
+- `skill`
+- `booking`
+
+Notes:
+- For user reports, prefer `/reports/users/:id`.
+- Report status starts as `pending`.
+
+## 5. Notes for Frontend Integration
 
 - Send `Content-Type: application/json`.
 - These custom controllers accept either plain JSON or Strapi-style wrapped JSON:

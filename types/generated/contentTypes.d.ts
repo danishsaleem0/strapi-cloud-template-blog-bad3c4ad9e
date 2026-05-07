@@ -691,15 +691,20 @@ export interface ApiReportReport extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: false;
   };
-  pluginOptions: {
-    i18n: {
-      localized: false;
-    };
-  };
   attributes: {
+    action_taken: Schema.Attribute.Enumeration<
+      ['none ', 'warning', 'suspended', 'banned']
+    > &
+      Schema.Attribute.DefaultTo<'none '>;
+    admin_note: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    current_status: Schema.Attribute.Enumeration<
+      ['pending', 'reviewed', 'resolved', 'rejected']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'pending'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -708,19 +713,14 @@ export interface ApiReportReport extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     reason: Schema.Attribute.Text & Schema.Attribute.Required;
-    reported_item_id: Schema.Attribute.String & Schema.Attribute.Required;
-    reported_item_type: Schema.Attribute.Enumeration<
-      ['skill', 'user', 'booking']
-    > &
-      Schema.Attribute.Required;
+    reported_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     reporter: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    status: Schema.Attribute.Enumeration<
-      ['pending', 'investigating', 'resolved', 'dismissed']
-    > &
-      Schema.Attribute.DefaultTo<'pending'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1141,8 +1141,8 @@ export interface PluginUploadFile extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
-    alternativeText: Schema.Attribute.Text;
-    caption: Schema.Attribute.Text;
+    alternativeText: Schema.Attribute.String;
+    caption: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1166,7 +1166,7 @@ export interface PluginUploadFile extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     mime: Schema.Attribute.String & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    previewUrl: Schema.Attribute.Text;
+    previewUrl: Schema.Attribute.String;
     provider: Schema.Attribute.String & Schema.Attribute.Required;
     provider_metadata: Schema.Attribute.JSON;
     publishedAt: Schema.Attribute.DateTime;
@@ -1175,7 +1175,7 @@ export interface PluginUploadFile extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    url: Schema.Attribute.Text & Schema.Attribute.Required;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
     width: Schema.Attribute.Integer;
   };
 }
@@ -1371,6 +1371,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.Required;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    reports: Schema.Attribute.Relation<'oneToMany', 'api::report.report'>;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     reviews_as_reviewed_user: Schema.Attribute.Relation<
       'oneToMany',

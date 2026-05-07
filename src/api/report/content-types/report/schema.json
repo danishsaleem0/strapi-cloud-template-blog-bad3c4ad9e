@@ -9,11 +9,7 @@
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": false
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "reason": {
       "type": "text",
@@ -24,28 +20,36 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user"
     },
-    "reported_item_id": {
-      "type": "string",
-      "required": true
+    "reported_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "reports"
     },
-    "reported_item_type": {
+    "current_status": {
       "type": "enumeration",
-      "enum": [
-        "skill",
-        "user",
-        "booking"
-      ],
-      "required": true
-    },
-    "status": {
-      "type": "enumeration",
+      "required": true,
+      "default": "pending",
       "enum": [
         "pending",
-        "investigating",
+        "reviewed",
         "resolved",
-        "dismissed"
-      ],
-      "default": "pending"
+        "rejected"
+      ]
+    },
+    "admin_note": {
+      "type": "text",
+      "required": false
+    },
+    "action_taken": {
+      "type": "enumeration",
+      "default": "none ",
+      "enum": [
+        "none ",
+        "warning",
+        "suspended",
+        "banned"
+      ]
     }
   }
 }
